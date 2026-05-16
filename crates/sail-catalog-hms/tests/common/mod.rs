@@ -749,9 +749,10 @@ fn core_site_xml() -> &'static str {
 "#
 }
 
-fn unique_suffix() -> u128 {
-    SystemTime::now()
+fn unique_suffix() -> String {
+    let timestamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap_or_else(|error| panic!("read system time: {error}"))
-        .as_millis()
+        .as_nanos();
+    format!("{}-{timestamp}", std::process::id())
 }
